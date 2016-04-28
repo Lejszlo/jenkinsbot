@@ -6,6 +6,8 @@ module.exports = {
     addDialogs: addDialogs  
 };
 
+var jenkinsServer = jenkins.server;
+
 function addDialogs(bot) {
     
     bot.add('/listjobs', [
@@ -14,19 +16,25 @@ function addDialogs(bot) {
                 var viewName = message.split(" ")[1];
                 
                 if(viewName) {
-                    console.log(viewName);
-                    var jobs = jenkins.all_jobs_in_view(viewName);
-                    session.endDialog(listNameOfJobs(jobs));
+                    jenkinsServer.all_jobs_in_view(viewName, function (err, data) {
+                        if(err) {
+                            console.log(data);
+                        }
+                        session.endDialog(listNameOfJobs(data));
+                    });
+                    
                 } else {
                     builder.Prompts.text(session, "Which view want to list?");
                 }
             },
             function (session, results) {
                 if(results.response) {
-                    console.log(results.response);
-                    var jobs = jenkins.all_jobs_in_view(results.response);
-                    session.send(listNameOfJobs(jobs));
-                    session.endDialog();
+                    jenkinsServer.all_jobs_in_view(results.response, function (err, data) {
+                        if(err) {
+                            console.log(data);
+                        }
+                        session.endDialog(listNameOfJobs(data));
+                    });     
                 }
             },
             
@@ -35,8 +43,8 @@ function addDialogs(bot) {
 
 function listNameOfJobs(jobs) {
     var names = "";
-    for(job in jobs) {
-        names += " * " + job.name + " \n";
+    for(i=0; i<jobs.length; ++i) {
+        names += " * " + jobs[i].name + " \n";
     };
     return names;
 }

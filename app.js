@@ -3,6 +3,7 @@ var builder = require('botbuilder');
 var index = require('./dialogs/index');
 var build = require('./dialogs/build');
 var job = require('./dialogs/job');
+var info = require('./dialogs/info');
 var prompts = require('./prompts');
 
 // Create bot and add dialogs
@@ -11,6 +12,7 @@ var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppS
 index.addDialogs(bot);
 build.addDialogs(bot);
 job.addDialogs(bot);
+info.addDialogs(bot);
 
 // Install First Run middleware and dialog
 bot.use(function (session, next) {

@@ -11,6 +11,7 @@ function addDialogs(bot) {
         .matches('/help', builder.DialogAction.send(prompts.helpMessage))
         .matches('/build', "/build")
         .matches('/listjobs', "/listjobs")
+        .matches('/lastbuild',"/lastbuild")
         .matches('/goodbye|/bye|/quit|/exit', builder.DialogAction.endDialog(prompts.goodbye))
         .onDefault(builder.DialogAction.send(prompts.unknown)));
 }
