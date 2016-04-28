@@ -2,6 +2,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var index = require('./dialogs/index');
 var build = require('./dialogs/build');
+var job = require('./dialogs/job');
 var prompts = require('./prompts');
 
 // Create bot and add dialogs
@@ -9,6 +10,7 @@ var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppS
 
 index.addDialogs(bot);
 build.addDialogs(bot);
+job.addDialogs(bot);
 
 // Install First Run middleware and dialog
 bot.use(function (session, next) {
@@ -21,16 +23,7 @@ bot.use(function (session, next) {
 });
 bot.add('/firstRun', [
     function (session) {
-        builder.Prompts.text(session, "Hello, What's your name?");
-    },
-    function (session, results) {
-        // We'll save the prompts result and return control to main through
-        // a call to replaceDialog(). We need to use replaceDialog() because
-        // we intercepted the original call to main and we want to remove the
-        // /firstRun dialog from the callstack. If we called endDialog() here
-        // the conversation would end since the /firstRun dialog is the only 
-        // dialog on the stack.
-        session.userData.name = results.response;
+        session.userData.name = session.message.from.name;
         
         session.send(prompts.welcome, session.userData.name);
         session.replaceDialog('/'); 
