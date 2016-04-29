@@ -1,6 +1,9 @@
 var builder = require("botbuilder");
 var prompts = require("../prompts");
 var jenkins = require("../jenkins");
+var dateFormat = require('dateformat');
+
+var jenkinsServer = jenkins.server;
 
 module.exports = {
     addDialogs: addDialogs  
@@ -34,32 +37,42 @@ function addDialogs(bot) {
                 //if(jobInfo === undefined) {
                 //     session.endDialog("The job is not exist. You can list the available jobs with the '/listjobs [viewName]' command");
                 //}
-                jenkins.build(jobName);
-                session.dialogData.jobName = jobName;
-                builder.Prompts.confirm(session, jobName + " is building. Do you want to give notification about process result?");
+                jenkinsServer.build(jobName, function(err, data){
+                    session.endDialog(jobName + " is building. If you want information about building type /last build "+ jobName);
+                });
             },
-            function (session, results) {
-                if (results.response) {
-                    session.beginDialog('/notifybuilding', {name: session.dialogData.jobName});
-                } else {
-                    session.endDialog("Ok.");
-                }
-            }
     ]);
     
-    bot.add('/notifybuilding', [
-        function (session, args) {
-                var building = true;
-                var data;
-                while(building) {
-                    setTimeout(function() {
-                        data = jenkins.last_build_info(args.name);
-                        building = data.building;
-                        console.log(building);
-                    }, 5000);
-                }
+     bot.add('/lastbuild', [
+            function (session) {
+                var message = session.message.text;
+                var jobName = message.split(" ")[2];
                 
-                session.endDialog("Result: " + data.result);
+                if(jobName) {
+                    jenkinsServer.last_build_info(jobName, function(err, data) {
+                        if (err){ 
+                            console.log(data);
+                            session.endDialog("Sorry, there was an error. :( )");
+                        }
+                        session.endDialog(getLastBuildText(data));
+                    })
+                    
+                }
             },
-    ])
+        ]);       
+}
+
+function getLastBuildText(data) {
+    if(data.building) {
+        return "The job is building. ".concat(getShortDescription(data), " at ", dateFormat(new Date(data.timestamp)));
+    }
+    return "The build was ".concat(data.result, ". ", getShortDescription(data), " at ", dateFormat(new Date(data.timestamp)));
+}
+
+function getShortDescription(data) {
+    try{
+        return data.actions[0].causes[0].shortDescription;
+    }catch(e){
+        return "";
+    }
 }

@@ -10,10 +10,26 @@ var jenkinsServer = jenkins.server;
 
 function addDialogs(bot) {
     
+    bot.add('/list', function(session) {
+        var message = session.message.text;
+        var splitted = message.split(" ");
+        var secondCommand = splitted[1];
+        
+        if(secondCommand == "jobs") {
+            if(splitted.indexOf("all") != -1) {
+                
+            }
+            session.beginDialog('/listjobs', {viewName : splitted[3]});
+        }
+    });
+    bot.add('/listalljobs',function(session) {
+        jenkinsServer.all_jobs(viewName, function (err, data) {
+            session.endDialog(listNameOfJobs(data));
+        });
+    });
     bot.add('/listjobs', [
-            function (session) {
-                var message = session.message.text;
-                var viewName = message.split(" ")[1];
+            function (session, args) {
+                var viewName = args.viewName;
                 
                 if(viewName) {
                     jenkinsServer.all_jobs_in_view(viewName, function (err, data) {

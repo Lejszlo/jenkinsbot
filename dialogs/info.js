@@ -10,7 +10,7 @@ var jenkinsServer = jenkins.server;
 
 function addDialogs(bot) {
     
-    bot.add('/lastbuild', [
+    bot.add('/info about', [
             function (session) {
                 var message = session.message.text;
                 var jobName = message.split(" ")[1];
@@ -27,16 +27,4 @@ function addDialogs(bot) {
             },
             
         ]);       
-}
-
-function getText(data) {
-    return "The build was ".concat(data.result, ". ", getShortDescription(data));
-}
-
-function getShortDescription(data) {
-    try{
-        return data.actions[0].causes[0].shortDescription;
-    }catch(e){
-        return "";
-    }
 }
