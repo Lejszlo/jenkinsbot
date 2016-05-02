@@ -4,6 +4,7 @@ var index = require('./dialogs/index');
 var build = require('./dialogs/build');
 var job = require('./dialogs/job');
 var info = require('./dialogs/info');
+var deleteJob = require('./dialogs/delete');
 var prompts = require('./prompts');
 
 // Create bot and add dialogs
@@ -13,6 +14,7 @@ index.addDialogs(bot);
 build.addDialogs(bot);
 job.addDialogs(bot);
 info.addDialogs(bot);
+deleteJob.addDialogs(bot);
 
 // Install First Run middleware and dialog
 bot.use(function (session, next) {

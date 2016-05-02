@@ -17,14 +17,14 @@ function addDialogs(bot) {
                 var jobName = message.split(" ")[1];
                 
                 if(jobName) {
-                    session.beginDialog("/buildJob", {name : jobName});
+                    session.replaceDialog("/buildJob", {name : jobName});
                 } else {
                     builder.Prompts.text(session, "What is the name of the job which would like to build?");
                 }
             },
             function (session, results) {
                 if(results.response) {
-                    session.beginDialog("/buildJob", {name : results.response});
+                    session.replaceDialog("/buildJob", {name : results.response});
                 }
             },
             
@@ -33,10 +33,12 @@ function addDialogs(bot) {
             function (session, args) {
                 var jobName = args.name;
                 console.log("Job name: " + jobName)
-                //var jobInfo = jenkins.job_info(jobName);
-                //if(jobInfo === undefined) {
-                //     session.endDialog("The job is not exist. You can list the available jobs with the '/listjobs [viewName]' command");
-                //}
+                
+                jenkinsServer.job-info(jobName, function(err,data) {
+                    if(err) {
+                        session.endDialog("Sorry, there is no job with the given name!");
+                    }
+                });
                 jenkinsServer.build(jobName, function(err, data){
                     session.endDialog(jobName + " is building. If you want information about building type /last build "+ jobName);
                 });

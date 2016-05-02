@@ -15,15 +15,16 @@ function addDialogs(bot) {
         var splitted = message.split(" ");
         var secondCommand = splitted[1];
         
-        if(secondCommand == "jobs") {
+        if(splitted.indexOf("job") != -1 || splitted.indexOf("jobs") != -1) {
             if(splitted.indexOf("all") != -1) {
-                
+                session.replaceDialog('/listalljobs');
+            } else {
+                session.replaceDialog('/listjobs', {viewName : splitted[2]});
             }
-            session.beginDialog('/listjobs', {viewName : splitted[3]});
         }
     });
     bot.add('/listalljobs',function(session) {
-        jenkinsServer.all_jobs(viewName, function (err, data) {
+        jenkinsServer.all_jobs(function (err, data) {
             session.endDialog(listNameOfJobs(data));
         });
     });
