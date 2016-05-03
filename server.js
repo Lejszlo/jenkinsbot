@@ -36,7 +36,7 @@ bot.add('/firstRun', [
 
 // Setup Restify Server
 var server = restify.createServer();
-server.post('/api/messages', bot.verifyBotFramework({ appId: 'jenkinsbot'}), bot.listen());
+server.post('/api/messages', bot.verifyBotFramework({ appId: 'jenkinsbot', appSecret: '5d11dbef64694e19a7ed919f6ba745ab' }), bot.listen());
 server.listen(process.env.PORT || 8080, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
