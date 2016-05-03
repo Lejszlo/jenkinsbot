@@ -2,11 +2,7 @@
   "name": "jenkinsbot",
   "version": "1.0.0",
   "description": "bot for use jenkins",
-  "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "server.js"
-  },
+  "main": "server.js",
   "author": "",
   "license": "ISC",
   "dependencies": {
