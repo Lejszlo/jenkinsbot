@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "bot for use jenkins",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
+  "scripts": {
+    "start": "node server.js"
+  },
   "author": "Laszlo Hajdu",
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^0.9.2",
     "dateformat": "^1.0.12",
+    "jenkins-api": "^0.2.8",
     "restify": "^4.0.4"
   }
 }
