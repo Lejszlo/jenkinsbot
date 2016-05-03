@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "bot for use jenkins",
   "main": "server.js",
-  "author": "",
+  "scripts": { "start": "node server.js" },
+  "author": "Laszlo Hajdu",
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^0.9.2",
