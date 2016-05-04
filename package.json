@@ -9,9 +9,13 @@
   "author": "Laszlo Hajdu",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "botbuilder": "^0.9.2",
     "dateformat": "^1.0.12",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
     "jenkins-api": "^0.2.8",
+    "pug": "^2.0.0-alpha6",
     "restify": "^4.0.4"
   }
 }
