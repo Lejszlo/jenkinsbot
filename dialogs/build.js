@@ -13,32 +13,12 @@ function addDialogs(bot) {
     
     bot.add('/build', [
             function (session) {
-                var message = session.message.text;
-                var jobName = message.split(" ")[1];
-                
-                if(jobName) {
-                    session.replaceDialog("/buildJob", {name : jobName});
-                } else {
-                    builder.Prompts.text(session, "What is the name of the job which would like to build?");
-                }
+                session.replaceDialog("/calculate_job_name", {nextDialogId : '/buildJob'});
             },
-            function (session, results) {
-                if(results.response) {
-                    session.replaceDialog("/buildJob", {name : results.response});
-                }
-            },
-            
         ]);        
     bot.add('/buildJob', [
             function (session, args) {
                 var jobName = args.name;
-                console.log("Job name: " + jobName)
-                
-                jenkinsServer.job-info(jobName, function(err,data) {
-                    if(err) {
-                        session.endDialog("Sorry, there is no job with the given name!");
-                    }
-                });
                 jenkinsServer.build(jobName, function(err, data){
                     session.endDialog(jobName + " is building. If you want information about building type /last build "+ jobName);
                 });

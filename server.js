@@ -35,19 +35,9 @@ bot.add('/firstRun', [
     }
 ]);
 
-// Setup Restify Server
-//var server = restify.createServer();
 var app = express();
 app.locals.title = 'JenkinsBot';
-app.use(bot.verifyBotFramework({ appId: 'jenkinsbot', appSecret: '5d11dbef64694e19a7ed919f6ba745ab' }));
-app.post('/api/messages', bot.listen());
-
-app.all('/', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
-
+app.post('/api/messages', bot.verifyBotFramework({ appId: 'jenkinsbot', appSecret: '5d11dbef64694e19a7ed919f6ba745ab' }), bot.listen());
 
 app.set('view engine', 'pug');
 app.get('/', function (req, res) {
