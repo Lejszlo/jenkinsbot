@@ -18,7 +18,11 @@ function addDialogs(bot) {
                 session.dialogData.nextDialogId = args.nextDialogId;
                 
                 if(jobName) {
-                    jobIsExist(session, jobName);
+                    jenkinsServer.job_info(jobName, function(err,data) {
+                        if(err) {
+                            session.endDialog("Sorry, there is no job with the given name!");
+                        }
+                    });
                     session.replaceDialog(session.dialogData.nextDialogId, {name : jobName});
                 } else {
                     builder.Prompts.text(session, "What is the name of the job which would like to build?");
@@ -26,18 +30,13 @@ function addDialogs(bot) {
             },
             function (session, results) {
                 if(results.response) {
-                    jobIsExist(session, results.response);
+                    jenkinsServer.job_info(jobName, function(err,data) {
+                        if(err) {
+                            session.endDialog("Sorry, there is no job with the given name!");
+                        }
+                    });
                     session.replaceDialog(session.dialogData.nextDialogId, {name : results.response});
                 }
             },
     ]);    
-}
-
-//If the job is not exist than the dialog will be closed, otherwise ther is nothing
-function jobIsExist(sesson, JobName) {
-    jenkinsServer.job-info(jobName, function(err,data) {
-        if(err) {
-            session.endDialog("Sorry, there is no job with the given name!");
-        }
-    });
 }
