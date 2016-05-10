@@ -3,8 +3,7 @@ var prompts = require("../prompts");
 var jenkins = require("../jenkins");
 
 module.exports = {
-    addDialogs: addDialogs,
-    jobIsExist : jobIsExist
+    addDialogs: addDialogs
 };
 
 var jenkinsServer = jenkins.server;
