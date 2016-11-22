@@ -9,13 +9,12 @@ module.exports = {
 var jenkinsServer = jenkins.server;
 
 function addDialogs(bot) {
-    
     bot.add('/delete', [
             function (session) {
                 session.replaceDialog("/calculate_job_name", {nextDialogId : '/deleteJob'});
             },           
         ]); 
-  bot.add('/deleteJob', [
+    bot.add('/deleteJob', [
             function (session, args) {
                 var jobName = args.jobName; 
                 builder.Prompts.confirm(session, "Are you sure to delete " + jobName + "?");
@@ -26,9 +25,9 @@ function addDialogs(bot) {
                         if (err){ 
                             session.endDialog("Sorry, something went wrong!");
                         }
-                        session.endDialog("I have delete " + jobName + ".");
+                        session.endDialog("I have deleted " + jobName + ".");
                     })                    
-                }
+                 }
             }
             
         ]);      

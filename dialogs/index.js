@@ -6,13 +6,9 @@ module.exports = {
 };
 
 function addDialogs(bot) {
-    
-    bot.add('/', new builder.CommandDialog()
-        .matches('/help', builder.DialogAction.send(prompts.helpMessage))
-        .matches('/build', "/build")
-        .matches('/list ((all )?job(s)?)', "/list")
-        .matches('/last build',"/lastbuild")
-        .matches('/delete',"/delete")
-        .matches('/goodbye|/bye|/quit|/exit', builder.DialogAction.endDialog(prompts.goodbye))
-        .onDefault(builder.DialogAction.send(prompts.unknown)));
+    bot.dialog('/', new builder.IntentDialog()
+        .matches(/^version/i, function (session) {
+            session.send('Bot version 1.2');
+        })
+    );
 }
