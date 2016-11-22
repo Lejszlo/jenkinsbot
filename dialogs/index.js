@@ -6,9 +6,9 @@ module.exports = {
 };
 
 function addDialogs(bot) {
-    bot.dialog('/', new builder.IntentDialog()
-        .matches(/^version/i, function (session) {
-            session.send('Bot version 1.2');
-        })
-    );
+    var intents = new builder.IntentDialog()
+    bot.dialog('/', intents);
+    intents.matches(/^hi/i, '/report')
+            .matches('/goodbye|/bye|/quit|/exit', builder.DialogAction.endDialog(prompts.goodbye))
+            .onDefault(builder.DialogAction.send(prompts.unknown));
 }

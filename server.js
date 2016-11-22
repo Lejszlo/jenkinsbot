@@ -18,11 +18,10 @@ var listener = app.listen(process.env.PORT || 8080, function () {
 
 // Create chat bot
 var connector = new builder.ChatConnector({
-    appId: 'jenkinsbot',
-    appPassword: '5d11dbef64694e19a7ed919f6ba745ab'
+    appId: 'a46a8f2e-7c91-4639-aa9c-fd0d55ae7088',
+    appPassword: 'tt6YPJqQnMdT9tpmEzmQC8H'
 });
 var bot = new builder.UniversalBot(connector);
-
 app.post('/api/messages', connector.listen());
 
 index.addDialogs(bot);

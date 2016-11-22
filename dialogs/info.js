@@ -12,12 +12,10 @@ function addDialogs(bot) {
     
    bot.dialog('/report', [
             function (session) {
-                jenkinsServer.job_info('Daily', function(err,data) {
-                    if(err) {
-                        session.endDialog("Sorry, there is no job with the given name!");
-                    }
+                jenkinsServer.last_build_info('Daily', function(err,data) {
+                    console.log(data);
+                    //session.send(JSON.parse(data)); 
                 });
-                session.replaceDialog(session.dialogData.nextDialogId, {name : results.response, args: args}); 
             }
     ]);    
 }
