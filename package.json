@@ -14,7 +14,7 @@
     "dateformat": "^1.0.12",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
-    "jenkins-api": "^0.2.8",
-    "pug": "^2.0.0-alpha6"
+    "pug": "^2.0.0-alpha6",
+    "request": "^2.79.0"
   }
 }

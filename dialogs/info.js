@@ -6,16 +6,21 @@ module.exports = {
     addDialogs: addDialogs
 };
 
-var jenkinsServer = jenkins.server;
-
 function addDialogs(bot) {
     
    bot.dialog('/report', [
             function (session) {
-                jenkinsServer.last_build_info('Daily', function(err,data) {
-                    console.log(data);
-                    //session.send(JSON.parse(data)); 
-                });
+                getLatestbuildResult('Daily','develop',session);
             }
     ]);    
+}
+
+function getLatestbuildResult(folder, branch, session) {
+    jenkins.lastBuild(folder, branch, function(err,data) {
+                    if(err) {
+                        console.log(data);
+                        return;
+                    }
+                    session.send("The latest build of " + data.fullDisplayName + " was " + data.result);
+                });
 }
